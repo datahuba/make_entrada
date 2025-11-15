@@ -14,7 +14,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY assets ./assets
 
 # Etapa 5: Copiar el resto del código de la aplicación
-COPY main.py .
+COPY . .
 
 # ---- PASO DE DEPURACIÓN ----
 # Este comando nos mostrará en la consola de build exactamente qué archivos hay en /app
