@@ -125,11 +125,27 @@ def crear_imagen_con_plantilla(data: EntradaRequest) -> io.BytesIO:
 @app.post("/generar-entrada")
 async def endpoint_generar_entrada(datos_entrada: EntradaRequest = Body(...)):
     """
-    Recibe los datos del asistente y genera una imagen PNG de la entrada.
+    Recibe los datos del asistente, genera una imagen PNG y la devuelve
+    con un nombre de archivo único basado en el id_entrada.
     """
     try:
+        # 1. Creamos la imagen en memoria, como siempre
         buffer_imagen = crear_imagen_con_plantilla(datos_entrada)
-        return StreamingResponse(buffer_imagen, media_type="image/png")
+
+        # 2. Construimos el nombre del archivo usando el id_entrada.
+        #    Esto garantiza que cada nombre de archivo sea único y predecible.
+        #    Limpiamos el ID por si contiene caracteres no válidos para nombres de archivo.
+        id_limpio = "".join(c for c in datos_entrada.id_entrada if c.isalnum() or c in ('-', '_')).rstrip()
+        nombre_archivo = f"entrada-{id_limpio}.png"
+        
+        # 3. Creamos el encabezado 'Content-Disposition'
+        headers = {
+            'Content-Disposition': f'attachment; filename="{nombre_archivo}"'
+        }
+
+        # 4. Devolvemos la imagen como un stream, pero ahora incluyendo los encabezados
+        return StreamingResponse(buffer_imagen, media_type="image/png", headers=headers)
+        
     except Exception as e:
         print(f"Error inesperado en el endpoint: {e}")
         raise HTTPException(status_code=500, detail=f"Ocurrió un error inesperado: {e}")
