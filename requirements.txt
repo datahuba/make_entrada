@@ -5,3 +5,4 @@ qrcode
 pydantic
 cloudinary
 python-dotenv
+python-multipart
