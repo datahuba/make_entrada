@@ -39,6 +39,7 @@ def subir_a_cloudinary(buffer_imagen: io.BytesIO, nombre_archivo: str) -> str:
         upload_result = cloudinary.uploader.upload(
             buffer_imagen, 
             public_id=public_id,
+            folder="san_perreo",
             overwrite=True
         )
 
