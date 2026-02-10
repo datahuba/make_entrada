@@ -42,7 +42,7 @@ def crear_imagen_con_plantilla(data: EntradaRequest) -> io.BytesIO:
     try:
         # --- 1. Carga de recursos ---
         script_dir = os.path.dirname(os.path.abspath(__file__))
-        ruta_plantilla = os.path.join(script_dir, "assets", "template.png")
+        ruta_plantilla = os.path.join(script_dir, "assets", "template1.png")
         ruta_font_bold = os.path.join(script_dir, "assets", "fonts", "Roboto-Bold.ttf")
         ruta_font_regular = os.path.join(script_dir, "assets", "fonts", "Roboto-Regular.ttf")
 
@@ -52,17 +52,17 @@ def crear_imagen_con_plantilla(data: EntradaRequest) -> io.BytesIO:
         # --- 2. Escritura de texto ---
         font_valor_nombre = ImageFont.truetype(ruta_font_bold, 30)
         font_valor_regular = ImageFont.truetype(ruta_font_regular, 30)
-        color_texto = "#212121"
-        draw.text((437, 490), data.nombre, font=font_valor_nombre, fill=color_texto)
-        draw.text((437, 540), data.monto_pagado, font=font_valor_regular, fill=color_texto)
-        draw.text((437, 590), data.metodo_pago, font=font_valor_regular, fill=color_texto)
+        color_texto = "#FFFFFF"
+        draw.text((437, 490), "A nombre de: "+data.nombre, font=font_valor_nombre, fill=color_texto)
+        draw.text((437, 540), "Monto pagado: "+data.monto_pagado, font=font_valor_regular, fill=color_texto)
+        draw.text((437, 590), "Método de pago: "+data.metodo_pago, font=font_valor_regular, fill=color_texto)
         # ==================================================================
         # INICIO DEL CÓDIGO AÑADIDO PARA EL ID
         # ==================================================================
         # --- 2.5. Escritura del ID en la esquina inferior derecha ---
         font_id = ImageFont.truetype(ruta_font_regular, 24)
-        color_id = "#616161"  # Un color gris para que no sea tan prominente
-        texto_id = data.id_entrada
+        color_id = "#FFFFFF"  # Un color gris para que no sea tan prominente
+        texto_id = "ID: "+data.id_entrada
 
         # Medimos el tamaño del texto para saber dónde posicionarlo
         ancho_plantilla, alto_plantilla = plantilla.size
